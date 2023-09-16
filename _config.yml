@@ -4,6 +4,7 @@
 title: Statistical Modelling for Data Science
 author: Gabriela Cohen Freue
 logo: logo.png
+copyright: 2023
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
