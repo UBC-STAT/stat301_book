@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/site-packages/jupyter_cache/executors/utils.py", line 56, in single_nb_execution
+    record_timing=False,
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/site-packages/nbclient/client.py", line 1087, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/asyncio/base_events.py", line 587, in run_until_complete
+    return future.result()
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/site-packages/nbclient/client.py", line 541, in async_execute
+    cell, index, execution_count=self.code_cells_executed + 1
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/site-packages/nbclient/client.py", line 832, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/Users/gcohen/opt/anaconda3/lib/python3.7/site-packages/nbclient/client.py", line 740, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply['content'])
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+options(repr.plot.width = 8, repr.plot.height = 5) # Adjust these numbers so the plot looks good in your desktop.
+
+plot_value <- dat_s %>% ggplot(aes(BLDG_METRE, assess_val)) + 
+  geom_point() +
+  xlab("building size (mts)") + 
+  ylab("assessment value ($/1000)") +
+     geom_abline(intercept=145,slope=1.5, size=2, col = "grey")+
+     geom_abline(intercept=500,slope=-1, size=2, col = "orange")+
+     geom_abline(intercept=600,slope=-.5, size=2, col = "red")+
+     geom_abline(intercept=10,slope=4, size=2, col = "green")+
+     geom_abline(intercept=147,slope=1.9, size=2, col = "purple")+
+  geom_smooth(method = lm, se = FALSE, color = "blue") +
+  ggtitle("Random Sample and Estimated Linear Regression")
+
+------------------
+
+Error in dat_s %>% ggplot(aes(BLDG_METRE, assess_val)): could not find function "%>%"
+Traceback:
+
+ERROR: Error in dat_s %>% ggplot(aes(BLDG_METRE, assess_val)): could not find function "%>%"
+
+

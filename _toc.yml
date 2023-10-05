@@ -4,5 +4,6 @@
 format: jb-book
 root: intro
 chapters:
-- file: w02d1_abTesting
-- file: w02d2_abPeeking
+- file: ch01_abTesting
+- file: ch02_abPeeking
+- file: ch03_LR_framework
