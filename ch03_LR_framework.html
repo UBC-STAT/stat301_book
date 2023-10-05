@@ -1,0 +1,1127 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linear Regression Framework &#8212; Statistical Modelling for Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Principled Peeking in A/B Testing" href="ch02_abPeeking.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Statistical Modelling for Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Statistical modelling for Data Science
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch01_abTesting.html">
+   A/B Testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch02_abPeeking.html">
+   Principled Peeking in A/B Testing
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Linear Regression Framework
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/ch03_LR_framework.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fch03_LR_framework.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/ch03_LR_framework.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Linear Regression Framework
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#historical-throwback">
+   Historical throwback …
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generative-vs-predictive-models">
+   Generative vs Predictive models
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generative-models">
+     Generative models
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predictive-models">
+     Predictive models
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-in-real-applications">
+   Linear regression in real applications
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#medicine-and-molecular-biology-an-example-of-prediction">
+     Medicine and Molecular Biology: an example of prediction
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#climate-change-an-example-of-estimation-and-inference">
+     Climate Change: an example of estimation and inference
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sports-an-example-of-prediction">
+     Sports: an example of prediction
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#case-study-california-schools">
+   Case Study: California Schools
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Linear Regression Framework
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#population-vs-sample">
+     1. Population
+     <em>
+      vs
+     </em>
+     Sample
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-variables">
+     2. The variables
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-regression-coefficients-beta-0-beta-1-beta-p">
+     3. The regression coefficients:
+     <span class="math notranslate nohighlight">
+      \(\beta_0, \; \beta_1, \; \beta_p\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-error-term-varepsilon">
+     4. The error term:
+     <span class="math notranslate nohighlight">
+      \(\varepsilon\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-conditional-expectation-of-the-response">
+     5. The conditional expectation of the response
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#font-color-blue-the-conditional-expectation-of-the-response-is-linearly-related-to-the-input-variable-and-the-line-is-the-linear-regression-font">
+       <font color="blue">
+        The conditional expectation of the response is linearly related to the input variable and the line is the
+        <em>
+         linear regression
+        </em>
+       </font>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#another-way-of-viewing-this-assumption-is-that">
+       Another way of viewing this assumption is that:
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#knn-vs-ls">
+     kNN vs LS
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimation-of-the-regression-line">
+   Estimation of the regression line
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#which-one-is-the-best-line">
+     Which one is the best line??
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#least-squares-method-minimizes-the-sum-of-the-squares-of-the-residuals">
+       Least Squares method minimizes the sum of the squares of the residuals!!
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#check-this-application">
+       Check this application
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ls-in-r">
+     1. LS in R
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualization-of-the-ls-line">
+     2. Visualization of the LS line
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-estimated-slope">
+     3. The estimated slope
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#interpretation">
+       Interpretation:
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-estimated-intercept">
+     4. The estimated intercept
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#parameter-vs-estimator-vs-estimate">
+       Parameter
+       <em>
+        vs
+       </em>
+       Estimator
+       <em>
+        vs
+       </em>
+       Estimate
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#important-different-concepts">
+         3 important different concepts:
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary-and-conclusions">
+   Summary and Conclusions
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Linear Regression Framework</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Linear Regression Framework
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#historical-throwback">
+   Historical throwback …
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generative-vs-predictive-models">
+   Generative vs Predictive models
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generative-models">
+     Generative models
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predictive-models">
+     Predictive models
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-in-real-applications">
+   Linear regression in real applications
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#medicine-and-molecular-biology-an-example-of-prediction">
+     Medicine and Molecular Biology: an example of prediction
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#climate-change-an-example-of-estimation-and-inference">
+     Climate Change: an example of estimation and inference
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sports-an-example-of-prediction">
+     Sports: an example of prediction
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#case-study-california-schools">
+   Case Study: California Schools
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Linear Regression Framework
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#population-vs-sample">
+     1. Population
+     <em>
+      vs
+     </em>
+     Sample
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-variables">
+     2. The variables
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-regression-coefficients-beta-0-beta-1-beta-p">
+     3. The regression coefficients:
+     <span class="math notranslate nohighlight">
+      \(\beta_0, \; \beta_1, \; \beta_p\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-error-term-varepsilon">
+     4. The error term:
+     <span class="math notranslate nohighlight">
+      \(\varepsilon\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-conditional-expectation-of-the-response">
+     5. The conditional expectation of the response
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#font-color-blue-the-conditional-expectation-of-the-response-is-linearly-related-to-the-input-variable-and-the-line-is-the-linear-regression-font">
+       <font color="blue">
+        The conditional expectation of the response is linearly related to the input variable and the line is the
+        <em>
+         linear regression
+        </em>
+       </font>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#another-way-of-viewing-this-assumption-is-that">
+       Another way of viewing this assumption is that:
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#knn-vs-ls">
+     kNN vs LS
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimation-of-the-regression-line">
+   Estimation of the regression line
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#which-one-is-the-best-line">
+     Which one is the best line??
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#least-squares-method-minimizes-the-sum-of-the-squares-of-the-residuals">
+       Least Squares method minimizes the sum of the squares of the residuals!!
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#check-this-application">
+       Check this application
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ls-in-r">
+     1. LS in R
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualization-of-the-ls-line">
+     2. Visualization of the LS line
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-estimated-slope">
+     3. The estimated slope
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#interpretation">
+       Interpretation:
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-estimated-intercept">
+     4. The estimated intercept
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#parameter-vs-estimator-vs-estimate">
+       Parameter
+       <em>
+        vs
+       </em>
+       Estimator
+       <em>
+        vs
+       </em>
+       Estimate
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#important-different-concepts">
+         3 important different concepts:
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary-and-conclusions">
+   Summary and Conclusions
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="linear-regression-framework">
+<h1>Linear Regression Framework<a class="headerlink" href="#linear-regression-framework" title="Permalink to this headline">¶</a></h1>
+<center>
+<img src="https://etzq49yfnmd.exactdn.com/wp-content/uploads/2022/03/image021.png?strip=all&lossy=1&w=776&ssl=1"
+ width=500>
+</center>
+<p>Source: <a class="reference external" href="https://priceonomics.com/the-discovery-of-statistical-regression/">The Discovery of Statistical Regression</a></p>
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>In the previous chapters we introduced A/B testing experiments, highlighted some common problems encounter in real applications and examined some potential solutions. A/B testing experiments are commonly used to examine the effect of variations in products or services on a variable of interest. For example, a company may want to know if using a different picture in the home page of their website increases their online sales. However, there are many other variables that probably affect the sales of the company.</p>
+<p>A/B testing experiment can not be used to study the relation between continous variables. For example, is the montly investment in advertisement related with the sales of the company? Alternatively, a linear regression can be used to examine the relation of variables with a continuous response. Linear regression model can include different types of input variables, including categorical variables. Thus, many of the concepts learned in A/B testing can be thought as particular cases of linear regression models. In this chapter, we introduce linear regression models, discuss their scope, and present the least squares estimation method.</p>
+</div>
+<div class="section" id="historical-throwback">
+<h1>Historical throwback …<a class="headerlink" href="#historical-throwback" title="Permalink to this headline">¶</a></h1>
+<p>Least squares (LS) method was first used by <strong>Legendre</strong> (1805) and by <strong>Gauss</strong> (1809) to estimate the orbits of comets based on measurements of the comets’ previous locations. Gauss even predicted the appearence of the asteroid Ceres using LS combined with other complex computations. However, neither Legendre or Gauss coined the term “Regression”. <strong>Francis Galton</strong> in the nineteenth century used this term to describe a biological phenomenon that he observed: “It appeared from these experiments that the offspring did not tend to resemble their parents seeds in size, but to be always more mediocre than they”. Unfortunately, Francis Galton had disturbing and unacceptable views of race. Later, his colleague <strong>Karl Pearson</strong> associated LS method to regression. He observed that in the plot of the heights of parents on the x-axis and their children on the y-axis, the slope of the LS line was smaller than one. He named the LS line as the <em>regression line</em>. <strong>R.A. Fisher</strong> later combined the work of Gauss and Pearson and studied the theoretical properties of LS estimators for Regression.</p>
+<p>A full story can be found in <a class="reference external" href="https://priceonomics.com/the-discovery-of-statistical-regression/">The Discovery of Statistical Regression</a>.</p>
+<table><tr>
+<td> <img src="https://etzq49yfnmd.exactdn.com/wp-content/uploads/2022/03/image021.png?strip=all&lossy=1&w=776&ssl=1"
+ width=500 />
+ </td>
+<td> <img src="https://etzq49yfnmd.exactdn.com/wp-content/uploads/2022/03/image06-51.png?strip=all&lossy=1&w=640&ssl=1" width=400/> </td>
+</tr></table>
+</div>
+<div class="section" id="generative-vs-predictive-models">
+<h1>Generative vs Predictive models<a class="headerlink" href="#generative-vs-predictive-models" title="Permalink to this headline">¶</a></h1>
+<p>Linear regression models provide a unifying framework to  <strong>estimate</strong>  and  <strong>test</strong> the true relation between different type of variables and a continuous response. These linear models can also be used to <strong>predict</strong> the value of a continuous response (although it may not be the best predictive model). Different methods can be used to estimate and evaluate linear models depending on the primary goal of the study.</p>
+<p>Models can be classified as <strong>generative models</strong>, when the primary goal is to understand the model that generates the data, or <strong>predictive models</strong>, when the primary goal is to predict the response value of a new case that was not seen by the estimated model. Let’s see some examples.</p>
+<div class="section" id="generative-models">
+<h2>Generative models<a class="headerlink" href="#generative-models" title="Permalink to this headline">¶</a></h2>
+<p>As data scientists, you are often interested in understanding the model that generates the data. For example:</p>
+<ul class="simple">
+<li><p>which variables are associated with a response of interest?</p></li>
+<li><p>can we model the relationship between the response and the input variables? Is a linear model adequate?</p></li>
+<li><p>which variables are positively/negatively associated with the response?</p></li>
+<li><p>does the relationship between the response and an input variable depend on the values of the other variables?</p></li>
+</ul>
+<div class="admonition-examples-in-generative-models admonition">
+<p class="admonition-title">Examples in generative models:</p>
+<ul class="simple">
+<li><p>A real estate agent wants to identify factors that are related to the assessed values of homes (e.g., size of houses, age, amenities, etc)</p></li>
+<li><p>Biologists want to verify empirically the central dogma of biology that relates mRNA values to protein values in living organisms</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="predictive-models">
+<h2>Predictive models<a class="headerlink" href="#predictive-models" title="Permalink to this headline">¶</a></h2>
+<p>As data scientists, you are also interested in predicting the response value of a new case that was not seen by the estimated model. For example:</p>
+<ul class="simple">
+<li><p>can we predict the response variables using a linear model?</p></li>
+<li><p>what would be the response for a future observation in our study?</p></li>
+<li><p>which input variables are best to predict the response?</p></li>
+</ul>
+<div class="admonition-examples-in-prediction-models admonition">
+<p class="admonition-title">Examples in  prediction models:</p>
+<ul class="simple">
+<li><p>A real estate agent is interested in determining if a house is under- or over-valued given its characteristics (prediction problem)</p></li>
+<li><p>Biologists want to use mRNA data to predict protein values</p></li>
+</ul>
+</div>
+<p>Linear regression models can be used to answer any of these questions.</p>
+</div>
+</div>
+<div class="section" id="linear-regression-in-real-applications">
+<h1>Linear regression in real applications<a class="headerlink" href="#linear-regression-in-real-applications" title="Permalink to this headline">¶</a></h1>
+<p>How have linear regression models been used? Given its simple form, linear models have been widely used to study the relation between variables and to build predictive models. We reviewed some examples below:</p>
+<div class="section" id="medicine-and-molecular-biology-an-example-of-prediction">
+<h2>Medicine and Molecular Biology: an example of prediction<a class="headerlink" href="#medicine-and-molecular-biology-an-example-of-prediction" title="Permalink to this headline">¶</a></h2>
+<p>Scientists have used simple linear regression models to quantitatively explain the Central Dogma of Biology. This article, published in Nature (2017, 547:E19–E20), <a class="reference external" href="https://www.nature.com/articles/nature23293">Can We Predict Protein from mRNA levels?</a>, highlights the missused of correlation studies in this context.</p>
+<center>
+<img src="https://github.com/UBC-STAT/stat-301/blob/master/supplementary-material/img/nature_gcf.png?raw=true"
+ width=600>
+</center>
+</div>
+<div class="section" id="climate-change-an-example-of-estimation-and-inference">
+<h2>Climate Change: an example of estimation and inference<a class="headerlink" href="#climate-change-an-example-of-estimation-and-inference" title="Permalink to this headline">¶</a></h2>
+<p>Economists have used different <strong>linear regression models</strong> to explain people’s choices in relation to climate variables. Reference: <a class="reference external" href="https://www.journals.uchicago.edu/doi/full/10.1086/684573"><em>JAERE</em> 2016; 3(1): 205-246</a>. A featured article in FiveThirtyEight tells more about this study: <a class="reference external" href="https://fivethirtyeight.com/features/heres-the-best-place-to-move-if-youre-worried-about-climate-change/">Here’s The Best Place To Move If You’re Worried About Climate Change</a></p>
+<center>
+<img src="https://fivethirtyeight.com/wp-content/uploads/2019/09/CLIMATEWINNERS-0919-4x3.png?w=575"
+ width=400></div>
+<div class="section" id="sports-an-example-of-prediction">
+<h2>Sports: an example of prediction<a class="headerlink" href="#sports-an-example-of-prediction" title="Permalink to this headline">¶</a></h2>
+<p>Billy Bean, manager of the Oakland Athletics, used statistics to identify low cost players who can help the team win (example from <a class="reference external" href="http://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/multivariate-regression.html">Advanced Data Science</a>, Rafael Irizarry).</p>
+<table><tr>
+<td> <img src="https://github.com/UBC-STAT/stat-301/blob/master/supplementary-material/img/moneyball.png?raw=true" style="width:500px;"/> </td>
+<td> <img src="https://github.com/UBC-STAT/stat-301/blob/master/supplementary-material/img/moneyball_RI.png?raw=true" style="width:500px;"/> </td>
+</tr></table></div>
+</div>
+<div class="section" id="case-study-california-schools">
+<h1>Case Study: California Schools<a class="headerlink" href="#case-study-california-schools" title="Permalink to this headline">¶</a></h1>
+<p>We will use a real world dataset called <code class="docutils literal notranslate"><span class="pre">CASchools</span></code> that contains data from 420 school districts in California available for 1998 and 1999. The data set comes with an R package called <code class="docutils literal notranslate"><span class="pre">AER</span></code>, an acronym for Applied Econometrics with R (by Christian Kleiber &amp; Zeileis, 2017). Test scores are on the Stanford 9 standardized test administered to 5th grade students. School characteristics and demographic variables for the students are averaged across the district.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>We want to examine which demographic variables and school characteristics are associated with the performance of the students.</p>
+</div>
+<p>The following variables are available in this dataset for each district:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">district</span></code>: district code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">english</span></code>: percentage of students in the district that are English learners, i.e., students for whom English is a second language</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">read</span></code>: average reading score</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">math</span></code>: average math score</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">students</span></code>: total enrollment</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">teachers</span></code>: number of teachers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">calworks</span></code>: percent qualifying for CalWorks (income assistance)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lunch</span></code>: percent qualifying for reduced-price lunch</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">computer</span></code>: number of computers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expenditure</span></code>: expenditure per student</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">income</span></code>: district average income (in USD 1,000)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">english</span></code>: percent of English learners</p></li>
+</ul>
+<p>We will construct 2 new variables that will help us respond to the question of interest:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">score</span></code>: average math and reading scores</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stratio</span></code>: ratio of the number of students to the number of teachers</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>Linear Regression Framework<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Mathematically, a general framework for a multiple linear regression can be written as:</p>
+<div class="math notranslate nohighlight">
+\[Y_i = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + \ldots + \beta_j X_{pi} + \varepsilon_i,\]</div>
+<p>where <span class="math notranslate nohighlight">\(E(\varepsilon_i|X_{1i}, \ldots, X_{pi}) = E(\varepsilon_i) = 0\)</span> and <span class="math notranslate nohighlight">\(\text{Var}(\varepsilon_i) = \sigma^2\)</span>, and <span class="math notranslate nohighlight">\(i = 1 , \dots, n\)</span>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Definition</p>
+<p>To define the LR in general terms, we used the subindex <span class="math notranslate nohighlight">\(i\)</span> to identify the <span class="math notranslate nohighlight">\(i\)</span>th experimental unit in our sample:</p>
+<ul class="simple">
+<li><p>the <span class="math notranslate nohighlight">\(i\)</span>th district in the <code class="docutils literal notranslate"><span class="pre">CASchool</span></code> dataset</p></li>
+<li><p>the <span class="math notranslate nohighlight">\(i\)</span>th patient in a medical study</p></li>
+<li><p>the <span class="math notranslate nohighlight">\(i\)</span>th customer in an economics study</p></li>
+</ul>
+</div>
+<p>The mathematical presentation of the general model can be confusing. Thus, it may be helpful to note its similarity with a simple linear regression with only one input variable that you may be more familiar with.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>score<span class="math notranslate nohighlight">\(_i\)</span> = <span class="math notranslate nohighlight">\(\beta_0\)</span> + <span class="math notranslate nohighlight">\(\beta_1\)</span> stratio<span class="math notranslate nohighlight">\(_i\)</span> + error<span class="math notranslate nohighlight">\(_i\)</span></p>
+</div>
+<p>Note that this LR is similar to the formula you have studied before in a math course:</p>
+<div class="math notranslate nohighlight">
+\[y = a + m x.\]</div>
+<p>In Statistics, an error term is added since the values of the variables in the sample are realizations of random variables and will not be perfectly aligned.</p>
+<div class="section" id="population-vs-sample">
+<h2>1. Population <em>vs</em> Sample<a class="headerlink" href="#population-vs-sample" title="Permalink to this headline">¶</a></h2>
+<p>We can think of all districts in California as a random sample to respond to a more general question of interest: <strong>which demographic variables and school characteristics are associated with the performance of the students?</strong>.</p>
+<img src="https://images.unsplash.com/photo-1531361171768-37170e369163?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3024&q=80" width=500/> 
+<p>Photo by <a href="https://unsplash.com/@mihodango?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Ho Hyou</a> on <a href="https://unsplash.com/photos/qEOV3icU_Y4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a></p>
+<p>We can (and should) argue if the sample is representative of the population we want to study. For example, the districts of California may not be the best sample to represent other states in the US. But we can also think that the data observed are realizations of events with some random characteristics so it is a random sample even if we focus our question in California. For example, the result of a student test can vary if the student retakes it.</p>
+</div>
+<div class="section" id="the-variables">
+<h2>2. The variables<a class="headerlink" href="#the-variables" title="Permalink to this headline">¶</a></h2>
+<p><strong>The response variable: <span class="math notranslate nohighlight">\(Y\)</span></strong></p>
+<p>Also known as: <strong>explained variable</strong>, <strong>dependent variable</strong>, <strong>output</strong></p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">CASchool</span></code> example, we can use <code class="docutils literal notranslate"><span class="pre">score</span></code> as the response variable to answer the question of interest.</p>
+</div>
+<p><strong>The input variable(s): <span class="math notranslate nohighlight">\(X_j\)</span></strong></p>
+<p>Also known as: <strong>explanatory variables</strong>, <strong>independent variable</strong>, <strong>covariates</strong>, <strong>features</strong></p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">CASchool</span></code> example, we can use <code class="docutils literal notranslate"><span class="pre">stratio</span></code>, <code class="docutils literal notranslate"><span class="pre">lunch</span></code>, and <code class="docutils literal notranslate"><span class="pre">income</span></code> as input variables that might be related with the performance of the students in exams.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Definition</p>
+<p>The subindex <span class="math notranslate nohighlight">\(j\)</span> can be used to identify the <span class="math notranslate nohighlight">\(j\)</span>th variable in the data when many input variables are available. Note that this subindex is useful to define the LR in general. In a particular example you may prefer to use the name of the variables. For example, in the <code class="docutils literal notranslate"><span class="pre">CASchool</span></code> data, you can replace</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X_1\)</span> with <code class="docutils literal notranslate"><span class="pre">stratio</span></code></p></li>
+<li><p><span class="math notranslate nohighlight">\(X_2\)</span> with <code class="docutils literal notranslate"><span class="pre">lunch</span></code></p></li>
+<li><p><span class="math notranslate nohighlight">\(X_3\)</span> with <code class="docutils literal notranslate"><span class="pre">income</span></code></p></li>
+</ul>
+<p>for a  model with 3 input variables.</p>
+</div>
+<p>In this book we are going to assume that the input variables are fixed, this can be true by design (for example, we select two brands of a cereal) or conditioning on their observed values. Mathematical details of this assumption are beyond the scope of this book.</p>
+</div>
+<div class="section" id="the-regression-coefficients-beta-0-beta-1-beta-p">
+<h2>3. The regression coefficients: <span class="math notranslate nohighlight">\(\beta_0, \; \beta_1, \; \beta_p\)</span><a class="headerlink" href="#the-regression-coefficients-beta-0-beta-1-beta-p" title="Permalink to this headline">¶</a></h2>
+<p>The quantities that measure the linear relation between the input variables and the response are called the regression parameters or coefficients.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The population coefficients of the LR are <em>unknown</em> and <em>non-random</em>! We use data from a random sample to <em>estimate</em> them.</p>
+</div>
+<p>In Statistics, Greek letters are usually used to name coefficients. However, this is just a convention and different names can be used. For example, you can also use:</p>
+<div class="math notranslate nohighlight">
+\[score_i = a + m stratio_i + error_i\]</div>
+</div>
+<div class="section" id="the-error-term-varepsilon">
+<h2>4. The error term: <span class="math notranslate nohighlight">\(\varepsilon\)</span><a class="headerlink" href="#the-error-term-varepsilon" title="Permalink to this headline">¶</a></h2>
+<p>The error term contains all factors affecting <span class="math notranslate nohighlight">\(Y\)</span> that are not explicitly included in the model.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>We assume that these random errors are independent and identically distributed (called the <em>iid</em> assumption), with mean 0 and standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+</div>
+<p>As any other assumption, it may not hold or may not be a good assumption. Also, note that any distributional assumption made about the error term also affect the distribution of the random variable <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<ul class="simple">
+<li><p>for example, if you assume that, conditional on the input variables, <span class="math notranslate nohighlight">\(\varepsilon\)</span> is a Normal random variable, then <span class="math notranslate nohighlight">\(Y\)</span> would also be Normal</p></li>
+</ul>
+<p>Since the mean of the error terms is 0, we expect the values of the response to equally distributed above and below the regression line.</p>
+</div>
+<div class="section" id="the-conditional-expectation-of-the-response">
+<h2>5. The conditional expectation of the response<a class="headerlink" href="#the-conditional-expectation-of-the-response" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[E(Y_i|X_{1i}, \ldots, X_{pi}) = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + \ldots + \beta_j X_{pi}\]</div>
+<p>This theoretical formula may be a difficult to understand. It states that the (conditional) expected value of the response is linearly related with the input variables.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>Let’s consider the following simple LR in the <code class="docutils literal notranslate"><span class="pre">CASchool</span></code> example:</p>
+<p><span class="math notranslate nohighlight">\(E\)</span>(score|stratio) = a + m stratio</p>
+<p>In this model, the average performance of students is associated with the ratio of students to teachers. Moreover, we expect a constant change in the student-teacher ratio will score to be linearly association changes linearly</p>
+</div>
+<ul class="simple">
+<li><p>in our example: <span class="math notranslate nohighlight">\(E[\text{value}|\text{size}] = \beta_0 + \beta_1 \text{size}\)</span></p></li>
+</ul>
+<div class="section" id="font-color-blue-the-conditional-expectation-of-the-response-is-linearly-related-to-the-input-variable-and-the-line-is-the-linear-regression-font">
+<h3><font color="blue">  The conditional expectation of the response is linearly related to the input variable and the line is the <em>linear regression</em></font><a class="headerlink" href="#font-color-blue-the-conditional-expectation-of-the-response-is-linearly-related-to-the-input-variable-and-the-line-is-the-linear-regression-font" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><strong>NOTE</strong>: some textbooks ignore the “conditional” statement assuming that <span class="math notranslate nohighlight">\(X\)</span> is not random</p>
+</div></blockquote>
+</div>
+<div class="section" id="another-way-of-viewing-this-assumption-is-that">
+<h3>Another way of viewing this assumption is that:<a class="headerlink" href="#another-way-of-viewing-this-assumption-is-that" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[Y = \beta_0 + \beta_1 X + \varepsilon, \; E[\varepsilon|X] = 0\]</div>
+<p>(for simplicity I’m omitting the subscript <span class="math notranslate nohighlight">\(i\)</span>)</p>
+<blockquote>
+<div><p><strong>NOTE</strong>: This is not the only way to model the conditional expectation! If the true conditional expectation is not linear, other methods will be better to predict the response! For example: in DSCI100, you have used <code class="docutils literal notranslate"><span class="pre">kNN</span></code>!</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="knn-vs-ls">
+<h2>kNN vs LS<a class="headerlink" href="#knn-vs-ls" title="Permalink to this headline">¶</a></h2>
+<table><tr>
+<td> <img src="https://datasciencebook.ca/_main_files/figure-html/07-predictedViz-knn-1.png" style="width:900;"/> </td>
+<td> <img src="https://bookdown.org/roback/bookdown-BeyondMLR/bookdown-BeyondMLR_files/figure-html/OLSassumptions-1.png" style="width:100;"/> </td>
+</tr></table>
+<p>Images from <a class="reference external" href="https://datasciencebook.ca">Data Science: A First Introduction</a> and <a class="reference external" href="https://bookdown.org/roback/bookdown-BeyondMLR/">Beyond Multiple Linear Regression (BMLR)</a></p>
+</div>
+</div>
+<div class="section" id="estimation-of-the-regression-line">
+<h1>Estimation of the regression line<a class="headerlink" href="#estimation-of-the-regression-line" title="Permalink to this headline">¶</a></h1>
+<p>The true regression parameter are unknown! so we use data from a random sample to estimate them!!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span> <span class="o">=</span> <span class="m">8</span><span class="p">,</span> <span class="n">repr.plot.height</span> <span class="o">=</span> <span class="m">5</span><span class="p">)</span> <span class="c1"># Adjust these numbers so the plot looks good in your desktop.</span>
+
+<span class="n">plot_value</span> <span class="o">&lt;-</span> <span class="n">dat_s</span> <span class="o">%&gt;%</span> <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">BLDG_METRE</span><span class="p">,</span> <span class="n">assess_val</span><span class="p">))</span> <span class="o">+</span> 
+  <span class="nf">geom_point</span><span class="p">()</span> <span class="o">+</span>
+  <span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;building size (mts)&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  <span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;assessment value ($/1000)&quot;</span><span class="p">)</span> <span class="o">+</span>
+     <span class="nf">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="m">145</span><span class="p">,</span><span class="n">slope</span><span class="o">=</span><span class="m">1.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;grey&quot;</span><span class="p">)</span><span class="o">+</span>
+     <span class="nf">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="m">500</span><span class="p">,</span><span class="n">slope</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;orange&quot;</span><span class="p">)</span><span class="o">+</span>
+     <span class="nf">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="m">600</span><span class="p">,</span><span class="n">slope</span><span class="o">=</span><span class="m">-.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span><span class="o">+</span>
+     <span class="nf">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="n">slope</span><span class="o">=</span><span class="m">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;green&quot;</span><span class="p">)</span><span class="o">+</span>
+     <span class="nf">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="m">147</span><span class="p">,</span><span class="n">slope</span><span class="o">=</span><span class="m">1.9</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&quot;purple&quot;</span><span class="p">)</span><span class="o">+</span>
+  <span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="n">lm</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Random Sample and Estimated Linear Regression&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="n">dat_s</span> <span class="o">%&gt;%</span> <span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">BLDG_METRE</span><span class="p">,</span> <span class="n">assess_val</span><span class="p">)):</span> <span class="n">could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">function</span> <span class="s2">&quot;%&gt;%&quot;</span>
+<span class="ne">Traceback</span>:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">plot_value</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<img alt="_images/ch03_LR_framework_19_1.svg" src="_images/ch03_LR_framework_19_1.svg" /></div>
+</div>
+<div class="section" id="which-one-is-the-best-line">
+<h2>Which one is the best line??<a class="headerlink" href="#which-one-is-the-best-line" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="least-squares-method-minimizes-the-sum-of-the-squares-of-the-residuals">
+<h3>Least Squares method minimizes the sum of the squares of the residuals!!<a class="headerlink" href="#least-squares-method-minimizes-the-sum-of-the-squares-of-the-residuals" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><strong>Note</strong> the residuals are the distances of each point to the estimated line</p>
+</div></blockquote>
+</div>
+<div class="section" id="check-this-application">
+<h3>Check <a class="reference external" href="http://setosa.io/ev/ordinary-least-squares-regression/">this application</a><a class="headerlink" href="#check-this-application" title="Permalink to this headline">¶</a></h3>
+<center>
+<img src="https://github.com/UBC-STAT/stat-301/blob/master/supplementary-material/img/LS_ISL.png?raw=true" style="width:800px"/>
+</center>
+From An Introduction to Statistical Learning, by James, Witten, Hastie and Tibshirani </div>
+</div>
+<div class="section" id="ls-in-r">
+<h2>1. LS in R<a class="headerlink" href="#ls-in-r" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_s</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">assess_val</span><span class="o">~</span><span class="n">BLDG_METRE</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">dat_s</span><span class="p">)</span>
+<span class="nf">tidy</span><span class="p">(</span><span class="n">lm_s</span><span class="p">)</span><span class="o">%&gt;%</span><span class="nf">mutate_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">round</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 5</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>std.error</th><th scope=col>statistic</th><th scope=col>p.value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>90.769</td><td>9.793</td><td> 9.268</td><td>0</td></tr>
+	<tr><td>BLDG_METRE </td><td> 2.618</td><td>0.059</td><td>44.514</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The formula in <code class="docutils literal notranslate"><span class="pre">lm</span></code> has the response variable before the <code class="docutils literal notranslate"><span class="pre">~</span></code> and the predictors after. In this case we have only one predictor (<code class="docutils literal notranslate"><span class="pre">BLDG_METRE</span></code>).</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">lm(assess_val~.,data=dat_s)</span></code> uses all variables in the dataset, except the response, as predictors</p>
+</div></blockquote>
+</div>
+<div class="section" id="visualization-of-the-ls-line">
+<h2>2. Visualization of the LS line<a class="headerlink" href="#visualization-of-the-ls-line" title="Permalink to this headline">¶</a></h2>
+<p>Population points in grey and sample points in black</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">plot_value</span> <span class="o">&lt;-</span> <span class="n">dat</span> <span class="o">%&gt;%</span> <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">BLDG_METRE</span><span class="p">,</span> <span class="n">assess_val</span><span class="p">))</span> <span class="o">+</span> 
+  <span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&quot;grey&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;building size (mts)&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  <span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;assessed value ($/1000)&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">geom_point</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">dat_s</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">BLDG_METRE</span><span class="p">,</span> <span class="n">assess_val</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&quot;black&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="n">lm</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Random Sample and Estimated Linear Regression&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">plot_value</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<img alt="_images/ch03_LR_framework_27_1.svg" src="_images/ch03_LR_framework_27_1.svg" /></div>
+</div>
+</div>
+<div class="section" id="the-estimated-slope">
+<h2>3. The estimated slope<a class="headerlink" href="#the-estimated-slope" title="Permalink to this headline">¶</a></h2>
+<p>The estimated slope: <span class="math notranslate nohighlight">\(\hat{\beta}_1=2.6\)</span> measures the relationship between the assessment value and the size of a property</p>
+<div class="section" id="interpretation">
+<h3>Interpretation:<a class="headerlink" href="#interpretation" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Correct</strong>: An increase of 1 metre in size <em>is associated</em> with an increase of $2618 in the assessment value!</p></li>
+<li><p><strong>Wrong</strong>: <em>The effect</em> of 1 meter increase in the size of a property is a $2618 increase in the assessment value</p></li>
+<li><p><strong>Wrong</strong>: A 1 meter increase in the size of a property <em>caused</em> a $2618 increase in the assessed value</p></li>
+</ul>
+<p><font color="red"> Important:</font> We don’t know if the change in size <em>caused</em> the change in value and we can’t isolate the <em>effect</em> of size (<em>holding other factors fixed</em>) from all other factors in observational data</p>
+</div>
+</div>
+<div class="section" id="the-estimated-intercept">
+<h2>4. The estimated intercept<a class="headerlink" href="#the-estimated-intercept" title="Permalink to this headline">¶</a></h2>
+<p>The estimated intercept: <span class="math notranslate nohighlight">\(\hat{\beta}_0=90.8\)</span> measures the expected assessment value for a property of size 0 mts.</p>
+<ul class="simple">
+<li><p>We are not usually interested in this parameter</p></li>
+<li><p>We can’t even think of it as the value of the land, it’s really an interpolated value of our model</p></li>
+<li><p>Note that if the predictor is centered, <span class="math notranslate nohighlight">\(X_{i}-\bar{X}\)</span>, then the intercept represents the value of a property of average size.</p></li>
+</ul>
+<p><font color="red"> Important: </font> Many statistical properties do not hold for models without intercept!</p>
+<div class="section" id="parameter-vs-estimator-vs-estimate">
+<h3>Parameter <em>vs</em> Estimator <em>vs</em> Estimate<a class="headerlink" href="#parameter-vs-estimator-vs-estimate" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="important-different-concepts">
+<h4>3 important different concepts:<a class="headerlink" href="#important-different-concepts" title="Permalink to this headline">¶</a></h4>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Course</strong></p></th>
+<th class="head"><p><strong>Population Parameter</strong></p></th>
+<th class="head"><p><strong>Estimator</strong></p></th>
+<th class="head"><p><strong>Estimate</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>unknown quantity</p></td>
+<td><p>function of the random sample: <em>random variable</em></p></td>
+<td><p>real number computed with data (non-random)</p></td>
+</tr>
+<tr class="row-odd"><td><p>STAT 201</p></td>
+<td><p>mean = <span class="math notranslate nohighlight">\(E[Y]\)</span></p></td>
+<td><p>sample mean = <span class="math notranslate nohighlight">\(\bar{Y}\)</span></p></td>
+<td><p>499</p></td>
+</tr>
+<tr class="row-even"><td><p>STAT 301</p></td>
+<td><p>slope = <span class="math notranslate nohighlight">\(\beta_1\)</span></p></td>
+<td><p>estimator of the slope = <span class="math notranslate nohighlight">\(\hat{\beta}_1 = \frac{\sum_{i=1}^n(X_i-\bar{X})(Y_i-\bar{Y})}{\sum_{i=1}^n(X_i-\bar{X})^2}\)</span></p></td>
+<td><p>2.6</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p><strong>Note</strong>: we use a “hat” over the coefficient to distinguish the estimator from the true coefficient</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Note</strong>: usually <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> are used for both the estimates and the estimators, which can be confusing</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="summary-and-conclusions">
+<h1>Summary and Conclusions<a class="headerlink" href="#summary-and-conclusions" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Linear Regression Models provide a unifying framework to  <font color=blue> estimate  and  test </font> the true relation between different type of variables and a <strong>continuous response</strong></p></li>
+<li><p>Linear Regression Models can also be used to <font color=blue> predict </font> the value of a <strong>continuous response</strong> (although it may not be the best predictive model)</p></li>
+<li><p>We assume that the conditional expectation of the response is linearly related to the input variable and the line is the <em>linear regression</em></font></p></li>
+<li><p>Least Squares is one method to estimate the coefficients of a regression: it minimizes the sum of squares of the residuals</p></li>
+<li><p>LS regression can be computed in R using the <code class="docutils literal notranslate"><span class="pre">lm</span></code> function</p></li>
+<li><p>Using data from observational studies, we can not study any cause or effect between variables, only associations.</p></li>
+</ul>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="ch02_abPeeking.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Principled Peeking in A/B Testing</p>
+        </div>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Gabriela Cohen Freue<br/>
+    
+        &copy; Copyright 2023.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,1264 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inference in SLR &#8212; Statistical Modelling for Data Science</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Statistical Modelling for Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Statistical modelling for Data Science
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch01_abTesting.html">
+   A/B Testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch02_abPeeking.html">
+   Principled Peeking in A/B Testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch03_LR_framework.html">
+   Linear Regression Framework
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/ch05_SLR_inference.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fch05_SLR_inference.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/ch05_SLR_inference.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Inference in SLR
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-do-you-know-about-the-true-population-line-br">
+     What do you know about the true population line?
+     <br/>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#last-class-the-regression-framework">
+   Last class: the regression framework
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#last-class-estimation">
+   Last class: estimation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#today-inference">
+   Today: Inference
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimators-of-the-regression-coefficients">
+   Estimators of the regression coefficients
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-variation">
+   Measuring variation
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#different-samples-result-in-different-estimates-but-how-much-variation-do-you-expect-br">
+     Different samples result in different estimates!! but how much variation do you expect?
+     <br/>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#and-so-on-as-you-take-new-samples-you-get-different-estimates-of-the-regression-parameters">
+     and so on …. as you take new samples you get different
+     <em>
+      estimates
+     </em>
+     of the regression parameters
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-standard-error">
+     The standard error!!
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hypothesis-tests">
+   Hypothesis Tests
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#note-that-we-have-separate-tests-for-each-parameter-in-the-regression">
+     Note that we have separate tests for each parameter in the regression
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-statistic">
+     The statistic
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-p-value">
+     The p-value
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decision-rule">
+     Decision rule
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#confidence-intervals">
+   Confidence Intervals
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classical-cis">
+     Classical CIs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-sampling-distribution">
+   The Sampling Distribution
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#theoretical-results">
+     Theoretical results
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bootstrapping">
+     Bootstrapping
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Bootstrapping
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#we-generated-10000-estimates-of-the-intercept-and-the-slopes-using-only-1-sample">
+     We generated 10000 estimates of the intercept and the slopes using only 1 sample!!!
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#this-is-an-approximation-of-the-sampling-distribution">
+     This is an approximation of the sampling distribution
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#does-the-number-of-replicates-matter">
+     Does the number of replicates matter?
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#does-the-sample-size-matter">
+     Does the sample size matter?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bootstrap-confidence-intervals">
+   Bootstrap Confidence Intervals
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Inference in SLR</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Inference in SLR
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-do-you-know-about-the-true-population-line-br">
+     What do you know about the true population line?
+     <br/>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#last-class-the-regression-framework">
+   Last class: the regression framework
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#last-class-estimation">
+   Last class: estimation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#today-inference">
+   Today: Inference
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estimators-of-the-regression-coefficients">
+   Estimators of the regression coefficients
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-variation">
+   Measuring variation
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#different-samples-result-in-different-estimates-but-how-much-variation-do-you-expect-br">
+     Different samples result in different estimates!! but how much variation do you expect?
+     <br/>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#and-so-on-as-you-take-new-samples-you-get-different-estimates-of-the-regression-parameters">
+     and so on …. as you take new samples you get different
+     <em>
+      estimates
+     </em>
+     of the regression parameters
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-standard-error">
+     The standard error!!
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hypothesis-tests">
+   Hypothesis Tests
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#note-that-we-have-separate-tests-for-each-parameter-in-the-regression">
+     Note that we have separate tests for each parameter in the regression
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-statistic">
+     The statistic
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-p-value">
+     The p-value
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#decision-rule">
+     Decision rule
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#confidence-intervals">
+   Confidence Intervals
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classical-cis">
+     Classical CIs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-sampling-distribution">
+   The Sampling Distribution
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#theoretical-results">
+     Theoretical results
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bootstrapping">
+     Bootstrapping
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Bootstrapping
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#we-generated-10000-estimates-of-the-intercept-and-the-slopes-using-only-1-sample">
+     We generated 10000 estimates of the intercept and the slopes using only 1 sample!!!
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#this-is-an-approximation-of-the-sampling-distribution">
+     This is an approximation of the sampling distribution
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#does-the-number-of-replicates-matter">
+     Does the number of replicates matter?
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#does-the-sample-size-matter">
+     Does the sample size matter?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bootstrap-confidence-intervals">
+   Bootstrap Confidence Intervals
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="inference-in-slr">
+<h1>Inference in SLR<a class="headerlink" href="#inference-in-slr" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-do-you-know-about-the-true-population-line-br">
+<h2>What do you know about the true population line? <br><a class="headerlink" href="#what-do-you-know-about-the-true-population-line-br" title="Permalink to this headline">¶</a></h2>
+<br>
+<center>
+<img src="https://images.unsplash.com/photo-1500838752696-2a9bcfa9674a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=4140&q=80"
+ width=600>
+</center>
+<p>Photo by <a href="https://unsplash.com/@nate_dumlao?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Nathan Dumlao</a> on <a href="https://unsplash.com/photos/ipbVNCyRsX0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></p>
+<p>. A random sample will be used to estimate the population regression coefficients that fully characterized the linear association assumed among the variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># packages</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">repr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">infer</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">cowplot</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span>
+
+<span class="c1">#data</span>
+<span class="n">dat</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;data/Assessment_2015.csv&quot;</span><span class="p">)</span>
+<span class="n">dat</span> <span class="o">&lt;-</span> <span class="n">dat</span> <span class="o">%&gt;%</span> <span class="nf">filter</span><span class="p">(</span><span class="n">ASSESSCLAS</span><span class="o">==</span><span class="s">&quot;Residential&quot;</span><span class="p">)</span>  <span class="o">%&gt;%</span> 
+        <span class="nf">mutate</span><span class="p">(</span><span class="n">assess_val</span> <span class="o">=</span> <span class="n">ASSESSMENT</span> <span class="o">/</span> <span class="m">1000</span><span class="p">)</span>
+
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">561</span><span class="p">)</span>
+
+<span class="n">dat_s</span> <span class="o">&lt;-</span> <span class="nf">sample_n</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="m">1000</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“replacing previous import ‘ellipsis::check_dots_unnamed’ by ‘rlang::check_dots_unnamed’ when loading ‘tibble’”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“replacing previous import ‘ellipsis::check_dots_used’ by ‘rlang::check_dots_used’ when loading ‘tibble’”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“replacing previous import ‘ellipsis::check_dots_empty’ by ‘rlang::check_dots_empty’ when loading ‘tibble’”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.3.0 ──
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2</span> 3.3.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr  </span> 0.3.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble </span> 3.0.4     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr  </span> 1.0.2
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr  </span> 1.1.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr</span> 1.4.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr  </span> 1.4.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats</span> 0.5.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>Error in library(infer): there is no package called ‘infer’
+Traceback:
+
+1. library(infer)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="last-class-the-regression-framework">
+<h1>Last class: the regression framework<a class="headerlink" href="#last-class-the-regression-framework" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Linear Regression Models provide a unifying framework to  <font color=blue> estimate  and  test </font> the true relation between different type of variables and a <strong>continuous response</strong></p></li>
+<li><p>Linear Regression Models can also be used to <font color=blue> predict </font> the value of a <strong>continuous response</strong> (although it may not be the best predictive model)</p></li>
+<li><p>You assume that the conditional expectation of the response is linearly related to the input variable and the line is the <strong>linear regression</strong></p></li>
+</ul>
+</div>
+<div class="section" id="last-class-estimation">
+<h1>Last class: estimation<a class="headerlink" href="#last-class-estimation" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>The population regression coefficients (<span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>) are <em>unknown</em> and <em>non-random</em></p></li>
+<li><p>You use a random sample to estimate them</p></li>
+<li><p><strong>Least Squares</strong> is one method to estimate the coefficients of a regression: it minimizes the sum of squares of the residuals</p></li>
+<li><p>In R, LS regression estimates can be computed using the <code class="docutils literal notranslate"><span class="pre">lm</span></code> function</p></li>
+<li><p>Using data from observational studies, we can not study any cause or effect between variables, only associations.</p></li>
+</ul>
+</div>
+<div class="section" id="today-inference">
+<h1>Today: Inference<a class="headerlink" href="#today-inference" title="Permalink to this headline">¶</a></h1>
+<p>Using data, you can obtain point estimates of the regression coefficients. But,</p>
+<ul class="simple">
+<li><p>how can you infer information about the <em>population regression parameters</em> using those <em>estimates</em>?</p></li>
+<li><p>your estimates depend on your sample. How much sample-to-sample variation do you expect?</p></li>
+</ul>
+</div>
+<div class="section" id="estimators-of-the-regression-coefficients">
+<h1>Estimators of the regression coefficients<a class="headerlink" href="#estimators-of-the-regression-coefficients" title="Permalink to this headline">¶</a></h1>
+<p>The LS regression estimators are functions of the random sample. Thus, they are also random variables.</p>
+<ul class="simple">
+<li><p>We call them <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> to differentiate them from the population coefficients.</p></li>
+<li><p>As any other random variable, each estimator has a distribution. Since they are statistics, these distributions are called <em>sampling distributions</em>.</p></li>
+<li><p>As any other random variable, each estimator has a standard deviation. Since they are statistics, their SDs are called <em>standard errors</em> (SE).</p></li>
+<li><p>Both the SE and the sampling distribution are needed to make <em>inference about the population coefficients</em>.</p></li>
+</ul>
+</div>
+<div class="section" id="measuring-variation">
+<h1>Measuring variation<a class="headerlink" href="#measuring-variation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="different-samples-result-in-different-estimates-but-how-much-variation-do-you-expect-br">
+<h2>Different samples result in different estimates!! but how much variation do you expect?<br><a class="headerlink" href="#different-samples-result-in-different-estimates-but-how-much-variation-do-you-expect-br" title="Permalink to this headline">¶</a></h2>
+<center>
+<img src="https://images.unsplash.com/photo-1500838752696-2a9bcfa9674a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=4140&q=80"
+ width=700>
+</center><p>Let’s look at an example! <br></p>
+<p>Recall the estimates we obtained with the sample of 1000 houses <code class="docutils literal notranslate"><span class="pre">dat_s</span></code> from all properties in Strathcona County in Alberta <code class="docutils literal notranslate"><span class="pre">dat</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_value</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">assess_val</span><span class="o">~</span><span class="n">BLDG_METRE</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">dat_s</span><span class="p">)</span><span class="o">%&gt;%</span>
+                <span class="nf">tidy</span><span class="p">()</span><span class="o">%&gt;%</span><span class="nf">mutate_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">round</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+<span class="n">many_SLR</span> <span class="o">&lt;-</span> <span class="n">lm_value</span> <span class="o">%&gt;%</span> <span class="nf">select</span><span class="p">(</span><span class="n">term</span><span class="p">,</span><span class="n">estimate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">many_SLR</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 2</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>90.769</td></tr>
+	<tr><td>BLDG_METRE </td><td> 2.618</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Take <em>another sample</em> from the full dataset and estimate the regression line again!</p>
+<blockquote>
+<div><p><strong>Important</strong>: In practice, you will rarely take multiple samples!</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>NOTE</strong>: This is NOT bootstrapping!! Why??</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">301</span><span class="p">)</span>
+
+<span class="n">dat_rep2</span> <span class="o">&lt;-</span> <span class="nf">rep_sample_n</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">1000</span><span class="p">)</span>
+
+<span class="c1"># ANOTHER POINT ESTIMATES</span>
+
+<span class="n">lm_value_rep2</span> <span class="o">&lt;-</span> <span class="nf">tidy</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">assess_val</span><span class="o">~</span><span class="n">BLDG_METRE</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">dat_rep2</span><span class="p">))</span>  <span class="o">%&gt;%</span> 
+                    <span class="nf">select</span><span class="p">(</span><span class="n">estimate</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">mutate_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">round</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>  <span class="o">%&gt;%</span> <span class="nf">pull</span><span class="p">()</span>
+<span class="n">many_SLR</span> <span class="o">&lt;-</span> <span class="n">many_SLR</span>  <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">estimate2</span> <span class="o">=</span> <span class="n">lm_value_rep2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">many_SLR</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 3</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>estimate2</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>90.769</td><td>28.833737</td></tr>
+	<tr><td>BLDG_METRE </td><td> 2.618</td><td> 3.017228</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">30</span><span class="p">)</span>
+
+<span class="n">dat_rep3</span> <span class="o">&lt;-</span> <span class="nf">rep_sample_n</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">1000</span><span class="p">)</span>
+
+<span class="c1"># ANOTHER POINT ESTIMATES</span>
+
+<span class="n">lm_value_rep3</span> <span class="o">&lt;-</span> <span class="nf">tidy</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">assess_val</span><span class="o">~</span><span class="n">BLDG_METRE</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">dat_rep3</span><span class="p">))</span>  <span class="o">%&gt;%</span> 
+                    <span class="nf">select</span><span class="p">(</span><span class="n">estimate</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">mutate_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">round</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">pull</span><span class="p">()</span>
+<span class="n">many_SLR</span> <span class="o">&lt;-</span> <span class="n">many_SLR</span>  <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">estimate3</span> <span class="o">=</span> <span class="n">lm_value_rep3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">many_SLR</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 4</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>estimate2</th><th scope=col>estimate3</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>90.769</td><td>28.833737</td><td>117.497738</td></tr>
+	<tr><td>BLDG_METRE </td><td> 2.618</td><td> 3.017228</td><td>  2.447751</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="and-so-on-as-you-take-new-samples-you-get-different-estimates-of-the-regression-parameters">
+<h2>and so on …. as you take new samples you get different <em>estimates</em> of the regression parameters<a class="headerlink" href="#and-so-on-as-you-take-new-samples-you-get-different-estimates-of-the-regression-parameters" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="the-standard-error">
+<h2>The standard error!!<a class="headerlink" href="#the-standard-error" title="Permalink to this headline">¶</a></h2>
+<p>The variation of these estimates from sample to sample is measured by their standard deviation, which has a special name: <em>the standard error</em> (SE)</p>
+<blockquote>
+<div><p>But in practice, how can we compute the standard error if we have only 1 sample??</p>
+</div></blockquote>
+<p>We have different ways of answering this question:</p>
+<ol class="simple">
+<li><p>use a theoretical result! This is what <code class="docutils literal notranslate"><span class="pre">lm</span></code> does!!</p></li>
+<li><p>use bootstrapping!! As you did in STAT 201 for other quantities!!</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_value</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 5</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>std.error</th><th scope=col>statistic</th><th scope=col>p.value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>90.769</td><td>9.793</td><td> 9.268</td><td>0</td></tr>
+	<tr><td>BLDG_METRE </td><td> 2.618</td><td>0.059</td><td>44.514</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p><strong>Caution</strong>: these SE measure the sample-to-sample variation of each estimate, not the predicted value from the line. Thus, you can’t visualize them in a usual scatter plot.</p>
+<p>Choosing <code class="docutils literal notranslate"><span class="pre">se=TRUE</span></code> in <code class="docutils literal notranslate"><span class="pre">geom_smooth</span></code> you get bands for the predicted values</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span> <span class="o">=</span> <span class="m">8</span><span class="p">,</span> <span class="n">repr.plot.height</span> <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+
+<span class="n">plot_value</span> <span class="o">&lt;-</span> <span class="n">dat_s</span> <span class="o">%&gt;%</span> <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">BLDG_METRE</span><span class="p">,</span> <span class="n">assess_val</span><span class="p">))</span> <span class="o">+</span> 
+  <span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;building size (mts)&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  <span class="nf">ylab</span><span class="p">(</span><span class="s">&quot;assessed value ($/1000)&quot;</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">geom_point</span><span class="p">()</span> <span class="o">+</span>
+  <span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="n">lm</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="m">0.99</span><span class="p">)</span> <span class="o">+</span>
+  <span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;The bands are NOT the SE of the estimators&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<img alt="_images/ch05_SLR_inference_20_1.svg" src="_images/ch05_SLR_inference_20_1.svg" /></div>
+</div>
+</div>
+</div>
+<div class="section" id="hypothesis-tests">
+<h1>Hypothesis Tests<a class="headerlink" href="#hypothesis-tests" title="Permalink to this headline">¶</a></h1>
+<p>Is the input variable linearly associated with the response?</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p><strong>Intercept</strong></p></th>
+<th class="head"><p><strong>Slope</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>null hypothesis <span class="math notranslate nohighlight">\(H_0:\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\beta_0\)</span> = <span class="math notranslate nohighlight">\(0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\beta_1\)</span> = <span class="math notranslate nohighlight">\(0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>alternative hypothesis <span class="math notranslate nohighlight">\(H_1:\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\beta_0\)</span> <span class="math notranslate nohighlight">\(\neq\)</span> <span class="math notranslate nohighlight">\(0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\beta_1\)</span> <span class="math notranslate nohighlight">\(\neq\)</span> <span class="math notranslate nohighlight">\(0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="note-that-we-have-separate-tests-for-each-parameter-in-the-regression">
+<h2>Note that we have separate tests for each parameter in the regression<a class="headerlink" href="#note-that-we-have-separate-tests-for-each-parameter-in-the-regression" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="the-statistic">
+<h2>The statistic<a class="headerlink" href="#the-statistic" title="Permalink to this headline">¶</a></h2>
+<p>You can use the estimated coefficients and check how far the estimate is from <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<blockquote>
+<div><p>how far is far??</p>
+</div></blockquote>
+<p>The standard error can be used to construct a statistic. For example, the statistic of the slope is</p>
+<div class="math notranslate nohighlight">
+\[T = \frac{\hat{\beta}_1 - 0}{\text{SE}(\hat{\beta}_1)}\]</div>
+<ul class="simple">
+<li><p>an estimate of the SE is given in the column <code class="docutils literal notranslate"><span class="pre">std.error</span></code> of <code class="docutils literal notranslate"><span class="pre">tidy</span></code> table</p></li>
+<li><p>the value of this statistic is given in the column <code class="docutils literal notranslate"><span class="pre">statistic</span></code> of <code class="docutils literal notranslate"><span class="pre">tidy</span></code> table</p></li>
+</ul>
+</div>
+<div class="section" id="the-p-value">
+<h2>The p-value<a class="headerlink" href="#the-p-value" title="Permalink to this headline">¶</a></h2>
+<p>In the <code class="docutils literal notranslate"><span class="pre">tidy</span></code> table, you can also find <span class="math notranslate nohighlight">\(p\)</span>-values in the column <code class="docutils literal notranslate"><span class="pre">p.value</span></code>.</p>
+<blockquote>
+<div><p>how are these p-values computed?? and for which hypotheses??</p>
+</div></blockquote>
+<p>You need the sampling distributions (distribution of the estimators <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span>) to compute <span class="math notranslate nohighlight">\(p\)</span>-values!!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_value</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 5</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>std.error</th><th scope=col>statistic</th><th scope=col>p.value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>90.769</td><td>9.793</td><td> 9.268</td><td>0</td></tr>
+	<tr><td>BLDG_METRE </td><td> 2.618</td><td>0.059</td><td>44.514</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p><strong>Caution</strong>: the alternative hypothesis in <code class="docutils literal notranslate"><span class="pre">lm</span></code> is <span class="math notranslate nohighlight">\(H_1: \beta_j \neq 0\)</span>, for all <span class="math notranslate nohighlight">\(j\)</span>th coefficients.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">p.value</span></code> is interpreted as the probability, under <span class="math notranslate nohighlight">\(H_0\)</span>, that <span class="math notranslate nohighlight">\(\mid T \mid\)</span> is equal or larger than the value observed in your sample</p>
+<p>For example, assuming the true slope is zero, the probability of observing a slope as large or larger than 2.618 is less than 0.001.</p>
+</div>
+<div class="section" id="decision-rule">
+<h2>Decision rule<a class="headerlink" href="#decision-rule" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The smaller the <span class="math notranslate nohighlight">\(p\)</span>-value, the stronger the evidence against <span class="math notranslate nohighlight">\(H_0\)</span>.</p>
+</div></blockquote>
+<p>A small <span class="math notranslate nohighlight">\(p\)</span>-values (less than the significance level <span class="math notranslate nohighlight">\(\alpha\)</span>) indicate that the data provides enough statistical evidence against the null hypothesis of no association (i.e., to reject <span class="math notranslate nohighlight">\(H_0\)</span>).</p>
+<p>The fact that you have observed a slope of 2.618 provides enough evidence against the null hypothesis. At a significance level of <span class="math notranslate nohighlight">\(\alpha = 0.01\)</span> we reject <span class="math notranslate nohighlight">\(H_0\)</span>.</p>
+<blockquote>
+<div><p>The estimated slope is significantly different from 0.</p>
+</div></blockquote>
+<p><strong>Heads up</strong>: in the last years, the scientific community has identified the “crisis of p-values”. You can read more about it in <a class="reference external" href="https://www.nature.com/articles/d41586-019-00857-9">this article</a> and in the <a class="reference external" href="https://www.stat.berkeley.edu/~aldous/Real_World/ASA_statement.pdf">ASA statement</a>.</p>
+</div>
+</div>
+<div class="section" id="confidence-intervals">
+<h1>Confidence Intervals<a class="headerlink" href="#confidence-intervals" title="Permalink to this headline">¶</a></h1>
+<p>While point estimates provide a single guess about the population coefficients, you may prefer to have a range of values</p>
+<center>
+<img src="https://images.unsplash.com/photo-1605771233539-97cf9e108694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3542&q=80"
+ width=600>
+</center>
+<p>Photo by <a href="https://unsplash.com/@lahiru_iddamalgoda?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">lahiru iddamalgoda</a> on <a href="https://unsplash.com/photos/Cx2eiOj_K9o?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>. Analogy from <a class="reference external" href="https://moderndive.com/8-confidence-intervals.html">ModernDive</a></p>
+<p>Confidence intervals (CIs) reflect the uncertainty of our regression estimates and can be used to make inference about the regression coefficients.</p>
+<div class="section" id="classical-cis">
+<h2>Classical CIs<a class="headerlink" href="#classical-cis" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[\Big(\hat{b} - \text{SE}(\hat{b}) \times t_{\alpha/ 2, n - k}, \hat{b} + \text{SE}(\hat{b}) \times t_{\alpha/ 2, n - k}\Big)\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\text{SE}(\hat{b})\)</span> is the (estimated) SE of the estimator</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> is the sample size and <span class="math notranslate nohighlight">\(k\)</span> the number of regression parameters</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(t_{\alpha/ 2, n - k}\)</span> is the <strong>quantile of the <span class="math notranslate nohighlight">\(t\)</span>-distribution</strong> with <span class="math notranslate nohighlight">\(n - k\)</span> degrees of freedom!!</p></li>
+</ul>
+<p><strong>Heads up</strong>: this result is based in classical theoretical approximations (CLT) or distributional assumptions!!</p>
+<p>There are also many missunderstandings around the concept of CIs</p>
+<p>A 95% CI computed from the data is <strong>not</strong> a range of values that contains the true regression parameter with 95% probability.</p>
+<blockquote>
+<div><p>Once the interval has been computed based on the data, <em>nothing is random</em>! so it either covers or not the true value.</p>
+</div></blockquote>
+<p>Among many CIs computed from different samples, 95% of them contain the true regression parameter. Thus, we are 95% <em>confident</em> that the true coefficient is in the given range.</p>
+<p>Recall from ModernDive:</p>
+<center>
+<img src="https://d33wubrfki0l68.cloudfront.net/2d2e483414940e38694400a6ae4a69ca4afb7970/29dd2/moderndive_files/figure-html/reliable-percentile-1.png"
+ width=700>
+</center>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_value_CIs</span> <span class="o">&lt;-</span> <span class="nf">tidy</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">assess_val</span><span class="o">~</span><span class="n">BLDG_METRE</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">dat_s</span><span class="p">),</span> <span class="n">conf.int</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">mutate_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">round</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_v</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">assess_val</span><span class="o">~</span><span class="n">BLDG_METRE</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">dat_s</span><span class="p">)</span>
+<span class="nf">tidy</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lm_v</span><span class="p">,</span> <span class="n">conf.int</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="n">warn_on_subclass</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;tidy&quot;</span><span class="p">):</span> <span class="n">argument</span> <span class="s2">&quot;x&quot;</span> <span class="ow">is</span> <span class="n">missing</span><span class="p">,</span> <span class="k">with</span> <span class="n">no</span> <span class="n">default</span>
+<span class="ne">Traceback</span>:
+
+<span class="mi">1</span><span class="o">.</span> <span class="n">tidy</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">lm_v</span><span class="p">,</span> <span class="n">conf</span><span class="o">.</span><span class="n">int</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+<span class="mi">2</span><span class="o">.</span> <span class="n">tidy</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">lm_v</span><span class="p">,</span> <span class="n">conf</span><span class="o">.</span><span class="n">int</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+<span class="mi">3</span><span class="o">.</span> <span class="n">warn_on_subclass</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;tidy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_value_CIs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 7</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>std.error</th><th scope=col>statistic</th><th scope=col>p.value</th><th scope=col>conf.low</th><th scope=col>conf.high</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>90.769</td><td>9.793</td><td> 9.268</td><td>0</td><td>71.551</td><td>109.987</td></tr>
+	<tr><td>BLDG_METRE </td><td> 2.618</td><td>0.059</td><td>44.514</td><td>0</td><td> 2.502</td><td>  2.733</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-sampling-distribution">
+<h1>The Sampling Distribution<a class="headerlink" href="#the-sampling-distribution" title="Permalink to this headline">¶</a></h1>
+<p>We mentioned before that the estimators of the regression coefficient, <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span>, are <em>random variables</em>.</p>
+<p>Then they also have a <em>distribution</em>, called the <em>sampling distribution</em>, which we can use to compute <span class="math notranslate nohighlight">\(p\)</span>-values!!</p>
+<blockquote>
+<div><p>how do we know the <em>sampling distribution</em> of the estimators of the regression coefficients??</p>
+</div></blockquote>
+<p>We have different ways of answering this question:</p>
+<ol class="simple">
+<li><p>use a theoretical result! This is what <code class="docutils literal notranslate"><span class="pre">lm</span></code> does!!</p></li>
+<li><p>use bootstrapping!!</p></li>
+</ol>
+<div class="section" id="theoretical-results">
+<h2>Theoretical results<a class="headerlink" href="#theoretical-results" title="Permalink to this headline">¶</a></h2>
+<center>
+<img src="https://bookdown.org/roback/bookdown-BeyondMLR/bookdown-BeyondMLR_files/figure-html/OLSassumptions-1.png"
+ width=500>
+</center>
+<p>Images from <a class="reference external" href="https://bookdown.org/roback/bookdown-BeyondMLR/">Beyond Multiple Linear Regression (BMLR)</a></p>
+<p>In regression, it is usually assumed that the conditional distribution of the error terms is Normal!!</p>
+<blockquote>
+<div><p>this assumption is not always needed but it guarantees that the linear model is a good fit to the data!</p>
+</div></blockquote>
+<p><strong>Classical Theory 1</strong>: if we assume that the (conditional) distribution of the error terms is Normal, under <span class="math notranslate nohighlight">\(H_0\)</span>, the statistic <span class="math notranslate nohighlight">\(T\)</span> follows a <span class="math notranslate nohighlight">\(t\)</span>-distribution with <span class="math notranslate nohighlight">\(n - k\)</span> degrees of freedom,</p>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the sample size and <span class="math notranslate nohighlight">\(k\)</span> the number of regression parameters</p>
+<p><strong>Important: <font color="blue">CLT to the rescue</font></strong>: if the assumption is not true but the conditional distribution of the error terms is <em>nice enough</em> (under certain conditions), and if the <em>sample size is large</em>, then</p>
+<p><strong>Classical Theory 2</strong>: under <span class="math notranslate nohighlight">\(H_0\)</span>, the Central Limit Theory can be used to prove that the statistic <span class="math notranslate nohighlight">\(T\)</span> follows <em>approximately</em> a <span class="math notranslate nohighlight">\(t\)</span>-distribution with <span class="math notranslate nohighlight">\(n - k\)</span> degrees of freedom</p>
+<blockquote>
+<div><p>This theoretical result is used by <code class="docutils literal notranslate"><span class="pre">lm</span></code> to compute p-values and confidence intervals!!</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">lm</span></code> approximates the sampling distribution with a <span class="math notranslate nohighlight">\(t\)</span>-distribution with <span class="math notranslate nohighlight">\(n - k\)</span> degrees of freedom</p>
+<blockquote>
+<div><p><strong>Heads up</strong>: what can we do if the assumptions do not hold? or if we don’t want to use LS estimators? or if the sample size is not large to use approximations?</p>
+</div></blockquote>
+</div>
+<div class="section" id="bootstrapping">
+<h2>Bootstrapping<a class="headerlink" href="#bootstrapping" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Historical note</strong>: The term bootstrapping originates from the phrase “to pull oneself up by one’s bootstraps”, which refers to completing a seemingly impossible task with no external help.</p>
+</div></blockquote>
+<p>In Statistics, bootstrapping refers to sampling from our original sample <strong>with replacement</strong> (also called <strong>resampling with replacement</strong>) to generate a <strong>bootstrap sampling distribution</strong>.</p>
+<blockquote>
+<div><p><strong>Heads up</strong>: <strong>sampling with replacement</strong> means that each time we choose an observation from the sample, we return it before randomly selecting another. Resampling with replacement is required to get enough samples to approximate the sampling variation.</p>
+</div></blockquote>
+<p>The idea is to use the original sample as an <em>estimate</em> of the unknown population. The single sample acts as the “bootstraps” that we can use to “pull ourselves up” and create an approximation of sampling distribution.</p>
+<p><font color="blue">Again, note that we are sampling from the sample!! not from the population!!</font></p>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>Bootstrapping<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<br>
+<center>
+<div style="overflow:hidden;">
+   <img src="https://images.unsplash.com/photo-1605812860427-4024433a70fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3456&q=80" width=400 alt="" style="margin:-5% 0px -10% 0px;" />
+</div>
+  </center>
+<p>Photo by <a href="https://unsplash.com/@nampoh?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Maxim Hopman</a> on <a href="https://unsplash.com/photos/8cT5ja0P_N4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></p>
+<blockquote>
+<div><p><strong>Historical note</strong>: The term bootstrapping originates from the phrase “to pull oneself up by one’s bootstraps”, which refers to completing a seemingly impossible task with no external help.</p>
+</div></blockquote>
+<p>The collected sample acts as the “bootstraps” that you can use to “pull yourselves up” to approximate of sampling distribution.</p>
+<ul class="simple">
+<li><p>You use the original sample as an <em>estimate</em> of the unknown population</p></li>
+<li><p>You sample from your original sample <strong>with replacement</strong> to generate a new sample of same size!</p></li>
+<li><p>To obtain different samples of equal size, you need to sample <strong>with replacement</strong></p></li>
+</ul>
+<p><font color="blue">Again, note that we are sampling from the sample!! not from the population!!</font></p>
+<center>
+<img src="https://github.com/UBC-STAT/stat-301/blob/master/supplementary-material/img/bootstrapping.png?raw=true" width=700>
+</center><p>Using <em>bootstraping</em>, we generate a <em>long</em> list of estimates to compute <em>empirically</em> the sampling distribution!</p>
+<ul class="simple">
+<li><p>sample with replacement to obtain <span class="math notranslate nohighlight">\(B\)</span> samples of size <span class="math notranslate nohighlight">\(n\)</span></p></li>
+<li><p>for each sample, compute the estimated regression coefficients</p></li>
+<li><p>use the <span class="math notranslate nohighlight">\(B\)</span> regression estimates to calculate the sampling distribution</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+
+<span class="n">n</span> <span class="o">&lt;-</span> <span class="m">1000</span>
+<span class="n">B</span> <span class="o">&lt;-</span> <span class="m">10000</span>
+
+<span class="n">lm_boot</span> <span class="o">&lt;-</span> <span class="nf">replicate</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nf">sample_n</span><span class="p">(</span><span class="n">dat_s</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="nf">lm</span><span class="p">(</span><span class="n">formula</span> <span class="o">=</span> <span class="n">assess_val</span><span class="o">~</span><span class="n">BLDG_METRE</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">.</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="n">.</span><span class="o">$</span><span class="n">coef</span>
+<span class="p">})</span>
+<span class="n">lm_boot</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="n">boot_intercept</span> <span class="o">=</span> <span class="n">lm_boot</span><span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="p">],</span> <span class="n">boot_slope</span> <span class="o">=</span> <span class="n">lm_boot</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">lm_boot</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 6 × 2</caption>
+<thead>
+	<tr><th></th><th scope=col>boot_intercept</th><th scope=col>boot_slope</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td> 77.60172</td><td>2.734390</td></tr>
+	<tr><th scope=row>2</th><td> 91.29174</td><td>2.604643</td></tr>
+	<tr><th scope=row>3</th><td> 70.83473</td><td>2.798641</td></tr>
+	<tr><th scope=row>4</th><td> 77.41625</td><td>2.726911</td></tr>
+	<tr><th scope=row>5</th><td>108.46348</td><td>2.454075</td></tr>
+	<tr><th scope=row>6</th><td>119.70836</td><td>2.420410</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">tail</span><span class="p">(</span><span class="n">lm_boot</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 6 × 2</caption>
+<thead>
+	<tr><th></th><th scope=col>boot_intercept</th><th scope=col>boot_slope</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>9995</th><td> 67.00700</td><td>2.772294</td></tr>
+	<tr><th scope=row>9996</th><td>102.80346</td><td>2.514296</td></tr>
+	<tr><th scope=row>9997</th><td> 87.62634</td><td>2.638956</td></tr>
+	<tr><th scope=row>9998</th><td> 81.86622</td><td>2.671669</td></tr>
+	<tr><th scope=row>9999</th><td> 77.52043</td><td>2.719633</td></tr>
+	<tr><th scope=row>10000</th><td> 86.87740</td><td>2.617274</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="section" id="we-generated-10000-estimates-of-the-intercept-and-the-slopes-using-only-1-sample">
+<h2>We generated 10000 estimates of the intercept and the slopes using only 1 sample!!!<a class="headerlink" href="#we-generated-10000-estimates-of-the-intercept-and-the-slopes-using-only-1-sample" title="Permalink to this headline">¶</a></h2>
+<p>We can visualize the distribution of these values!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span> <span class="o">=</span> <span class="m">8</span><span class="p">,</span> <span class="n">repr.plot.height</span> <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+
+<span class="n">slope_sampling_dist</span> <span class="o">&lt;-</span>  <span class="nf">ggplot</span><span class="p">(</span><span class="n">lm_boot</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">boot_slope</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_histogram</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&quot;white&quot;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;Estimated Slope&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Sampling distribution for the estimator of the slope&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">slope_sampling_dist</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<img alt="_images/ch05_SLR_inference_49_1.svg" src="_images/ch05_SLR_inference_49_1.svg" /></div>
+</div>
+</div>
+<div class="section" id="this-is-an-approximation-of-the-sampling-distribution">
+<h2>This is an approximation of the sampling distribution<a class="headerlink" href="#this-is-an-approximation-of-the-sampling-distribution" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="does-the-number-of-replicates-matter">
+<h2>Does the number of replicates matter?<a class="headerlink" href="#does-the-number-of-replicates-matter" title="Permalink to this headline">¶</a></h2>
+<p>The larger the replication, the longer the list of estimates to better approximate of the sampling distribution!</p>
+</div>
+<div class="section" id="does-the-sample-size-matter">
+<h2>Does the sample size matter?<a class="headerlink" href="#does-the-sample-size-matter" title="Permalink to this headline">¶</a></h2>
+<p>Our estimator depends on a random sample and thus on its size!</p>
+<ul class="simple">
+<li><p>The SE of the estimator decreases with the sample size. Thus, the sampling distribution becomes tighter</p></li>
+<li><p>From the CLT: the sampling distribution becomes smoother and more “bell-shaped as the sample size increases.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="bootstrap-confidence-intervals">
+<h1>Bootstrap Confidence Intervals<a class="headerlink" href="#bootstrap-confidence-intervals" title="Permalink to this headline">¶</a></h1>
+<p>You can use the bootstrapping sampling distribution to compute CIs of regression parameters. There are various methods:</p>
+<ul class="simple">
+<li><p><strong>Standard error method</strong>: use the list of bootstrap estimates to approximate (only) the SE of the estimator</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ \Big(\hat{\beta}_1 - z_{\alpha/2} \text{ SE}^*, \hat{\beta}_1 - z_{1-\alpha/2} \text{ SE}^*\Big)\]</div>
+<ul class="simple">
+<li><p><strong>Percentile method</strong>: use the list of bootstrap estimates to the range using quantiles</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\Big(\hat{\beta}^*_{j,\alpha/2}, \hat{\beta}^*_{j,1 - \alpha/2}\Big)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span> <span class="o">=</span> <span class="m">8</span><span class="p">,</span> <span class="n">repr.plot.height</span> <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+
+<span class="n">slope_sampling_dist</span> <span class="o">&lt;-</span>  <span class="nf">ggplot</span><span class="p">(</span><span class="n">lm_boot</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">boot_slope</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_histogram</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&quot;white&quot;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;Estimated Slope&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Sampling distribution for the estimator of the slope&quot;</span><span class="p">)</span><span class="o">+</span>
+    <span class="nf">geom_vline</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="nf">quantile</span><span class="p">(</span><span class="n">boot_slope</span><span class="p">,</span><span class="m">0.025</span><span class="p">)),</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span>
+    <span class="nf">geom_vline</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">xintercept</span> <span class="o">=</span> <span class="nf">quantile</span><span class="p">(</span><span class="n">boot_slope</span><span class="p">,</span><span class="m">0.975</span><span class="p">)),</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">geom_segment</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="nf">quantile</span><span class="p">(</span><span class="n">boot_slope</span><span class="p">,</span><span class="m">0.025</span><span class="p">),</span> <span class="n">y</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">xend</span> <span class="o">=</span> <span class="nf">quantile</span><span class="p">(</span><span class="n">boot_slope</span><span class="p">,</span><span class="m">0.975</span><span class="p">),</span> <span class="n">yend</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> 
+        <span class="n">colour</span> <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span> <span class="m">2</span><span class="p">),</span><span class="n">show.legend</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+<span class=" -Color -Color-Cyan">ℹ</span> Please use `linewidth` instead.”
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">slope_sampling_dist</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<img alt="_images/ch05_SLR_inference_54_1.svg" src="_images/ch05_SLR_inference_54_1.svg" /></div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Gabriela Cohen Freue<br/>
+    
+        &copy; Copyright 2023.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
